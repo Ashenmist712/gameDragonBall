@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import "./css/style.css";
 import Swal from "sweetalert2";
 import Acciones from "./Acciones.js";
-import { atk_basico, atk_especial, carga_ki } from "./interface.js";
+import { atk_basico, atk_especial, carga_ki, curacion } from "./interface.js";
 
 
 const btn_player1 = document.getElementById("btn_player1");
@@ -76,6 +76,9 @@ const realizar_accion = (jugadorEnTurno, adversario, accion) => {
     // Ejecuta la acción solicitada; las acciones rechazadas conservan el turno actual
     switch (accion) {
         case "atkBasico":
+            if (jugadorEnTurno.getKi() < 10 || jugadorEnTurno.getEnergia() < 5) {
+                return msj_error("No tienes suficiente ki o energía. Carga ki/energía antes de volver a atacar.");
+            }
             atk_basico(jugadorEnTurno, adversario);
             jugadorEnTurno.aumentarContadorAtk_especial();
             break;
@@ -84,6 +87,9 @@ const realizar_accion = (jugadorEnTurno, adversario, accion) => {
                 const turnosFaltantes = 2 - jugadorEnTurno.getContadorAtk_especial();
                 const conteoTurno = turnosFaltantes === 1 ? "turno" : "turnos";
                 return msj_error(`Debes esperar ${turnosFaltantes} ${conteoTurno} para usar el ataque especial.`);
+            }
+            if (jugadorEnTurno.getKi() < 20 || jugadorEnTurno.getEnergia() < 15) {
+                return msj_error("No tienes suficiente ki o energía. Carga ki/energía antes de volver a atacar.");
             }
             atk_especial(jugadorEnTurno, adversario);
             jugadorEnTurno.setContadorAtk_especial(0);
@@ -101,6 +107,7 @@ const realizar_accion = (jugadorEnTurno, adversario, accion) => {
                 const mensaje = jugadorEnTurno.getSemilla() <= 0 ? "Este jugador ya no tiene semillas disponibles.": "Todas las estadísticas ya están al máximo.";
                 return msj_error(mensaje);
             }
+            curacion(jugadorEnTurno);
             jugadorEnTurno.aumentarContadorAtk_especial();
             break;
         default:

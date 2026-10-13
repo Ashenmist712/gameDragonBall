@@ -106,9 +106,10 @@ const carga_ki = (j1) => {
 }
 
 const curacion = (j1) => {
+    const imagenCuracion = j1.getPersonaje() === "Veguetta" ? "curacion.png" : "curar.png";
     Swal.fire({
         text: "curacion",
-        imageUrl: `./public/img/DB/${j1.getPersonaje()}/curar.png`,
+        imageUrl: `./public/img/DB/${j1.getPersonaje()}/${imagenCuracion}`,
         imageWidth: 400,
         imageHeight: 400,
         position: "center-center",
