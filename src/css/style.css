@@ -1,0 +1,21 @@
+body {
+    min-height: 100vh;
+    position: relative;
+    isolation: isolate;
+}
+
+body::before {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(rgba(9, 14, 32, 0.42), rgba(9, 14, 32, 0.62)),
+        url("/public/img/inicio.jpeg") center / cover no-repeat;
+    content: "";
+}
+
+body.battle-screen::before {
+    background-image:
+        linear-gradient(rgba(9, 14, 32, 0.42), rgba(9, 14, 32, 0.62)),
+        url("/public/img/castillo.jpeg");
+}
